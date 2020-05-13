@@ -38,7 +38,7 @@ void Pelicula::Guardar()
         exit(1);//termina la ejecucion del programa
     }
     for(auto i=begin(pelidatos);i!=end(pelidatos);i++){
-        file<<to_string(i->first)<<"\n"<<i->second.nombre<<"\n"<<i->second.genero<<"\n"<<i->second.duracion<<"\n"<<i->second.clase<<endl;
+        file<<i->first<<"\n"<<i->second.nombre<<"\n"<<i->second.genero<<"\n"<<i->second.duracion<<"\n"<<i->second.clase<<endl;
 
     }
     file.close();
@@ -66,17 +66,19 @@ void Pelicula::Insert()
 
         pelidatos[id]=d;
         cout<<"La pelicula ha sido ingresada,"
-              " por favor seleccione la opcion programar funcion"
+              "  seleccione la opcion programar funcion"
               " para poner la pelicula en cartelera"<<endl;
         system("pause");
 
 }
 
-void Pelicula::Printpeliculas()
+int Pelicula::Printpeliculas()
 {
-    cout <<"-------------------------------------------\n\n"<<endl;
+    int j=0;
     for(auto i=begin(pelidatos);i!=end(pelidatos);i++){
-        cout<<i->first<<" "<<i->second.nombre<<" "<<i->second.genero<<" "<<i->second.duracion<<" "<<i->second.clase<<endl;
+        cout<<i->first<<") "<<i->second.nombre<<" "<<i->second.genero<<" "<<i->second.duracion<<" min "<<i->second.clase<<endl;
+        j=j+1;
     }
+    return j;
 }
 

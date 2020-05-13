@@ -35,8 +35,10 @@ int main()
                 cout<<"2) Programar Funcion"<<endl;
                 cout<<"3) Administrar Salas"<<endl;
                 cout<<"4) Tipos de asientos"<<endl;
-                cout<<"5) Regresar"<<endl;
-                cout<<"6) Cerrar sesion"<<endl;
+                cout<<"5) Cambiar clave"<<endl;
+                cout<<"6) Reporte de ventas"<<endl;
+                cout<<"7) Regresar"<<endl;
+                cout<<"8) Cerrar sesion"<<endl;
                 int optionadmin;
                 cin>>optionadmin;
                 switch (optionadmin) {
@@ -45,8 +47,24 @@ int main()
                     peli.Guardar();
                     break;
                 case 2:
-                    if(saladatos.isVoid()==false){
-                        peli.Printpeliculas();//Imprime todas las peliculas guardadas
+                    if(saladatos.isVoid()==false){ //si hay salas registradas
+                        cout<<"Seleccione La pelicula para ingresar a cartelera: \n"<<endl;
+                        int npelis=peli.Printpeliculas();//Imprime todas las peliculas guardadas
+                        int pelicula,sala;
+                        cin>>pelicula;
+                        while(pelicula>npelis || pelicula<1){
+                            cout<<"Por favor seleccione una opcion valida"<<endl;
+                            cin>>pelicula;
+                        }
+                        cout<<"Seleccione una sala para la pelicula: "<<endl;
+                        saladatos.PrintSalas();
+                        cin>>sala;
+                        while(saladatos.Exist(sala)==false){
+                            cout<<"Seleccione una valida.. "<<endl;
+                            cout<<"Sala: ";cin>>sala;
+                        }
+                        datosCartelera.Insert(pelicula,sala);
+                        datosCartelera.Guardar();
 
 
                     }else{
@@ -66,26 +84,55 @@ int main()
                         int id,filas,columnas,tipoasiento;
                         cout<<"Numero de sala: ";cin>>id;
                         cout<<"Numero de filas: ";cin>>filas;
+                        while(filas>26){
+                            cout<<"La sala no puede tener mas de 26 filas "<<endl;
+                            cin>>filas;
+                        }
                         cout<<"Numero de columnas: ";cin>>columnas;
                         cout<<"Seleccione un tipo de asiento "<<endl;
                         saladatos.PrintAsientos();
                         cin>>tipoasiento;
                         saladatos.Insert(id,filas,columnas,tipoasiento);
+                        saladatos.Guardarsala();
                         break;
                     case 2:
                         saladatos.PrintSalas();
-                        system("pause");
                         break;
                     default:
                         break;
 
                     }
+                    break;
+                case 4:
+                    cout <<"-------------------------------------------\n\n"<<endl;
+                    saladatos.PrintAsientos();
+                    cout<<"\n1) Ingresar un tipo nuevo"<<endl;
+                    cout<<"2) Modificar Precio"<<endl;
+                    cout<<"3) Regresar"<<endl;
+                    int optionasientos;
+                    cin>>optionasientos;
+                    switch (optionasientos) {
+                    case 1:
+                        saladatos.InsertAsiento();
+                        saladatos.Guardarasiento();
+                        break;
+                    case 2:
+                        saladatos.CambiarPrecioAsiento();
+                        saladatos.Guardarasiento();
+                        break;
+                    }
+                    break;
+                case 5:
+                    Administrador.cambiarclave();
+                    Administrador.Guardar();
+                    break;
+                case 6:
 
                     break;
                 default:
                     login=false;
                     break;
-                }
+                 }
                 }
 
             }

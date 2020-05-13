@@ -14,6 +14,8 @@ private:
     string cc, clave;
 public:
     admin();//constructor que obtiene el usuario y la contraseña de sudo.txt
+    void cambiarclave();
+    void Guardar();
     bool Login();//inicio de sesion, retorna true si el usuario y contraeña es correcta
 };
 

@@ -16,6 +16,28 @@ admin::admin()
     fileinput.close();
 }
 
+void admin::cambiarclave()
+{
+    cin.sync();
+    cout<<"Ingrese nueva clave: ";getline(cin,clave);
+    cout<<"Su clave ha sido cambiada "<<endl;
+    system("pause");
+
+}
+
+void admin::Guardar()
+{
+    ofstream file;
+    file.open("../Parcial/Data_Base/Sudo.txt",ios::out);
+    if(file.fail()){
+        cout<<"No se pudo Guardar"<<endl;
+        exit(1);//termina la ejecucion del programa
+    }
+    file<<cc<<endl;
+    file<<clave<<endl;
+    file.close();
+}
+
 bool admin::Login()
 {
     string ced,pass;

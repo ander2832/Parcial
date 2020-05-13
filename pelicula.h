@@ -18,7 +18,7 @@ public:
     Pelicula();//constructor que carga los datos en el atributo pelidatos
     void Guardar();//guarda los datos en el archivo
     void Insert();//insertar una nueva pelicula
-    void Printpeliculas();//imprime todas las peliculas
+    int Printpeliculas();//imprime todas las peliculas retorna la cantidad de peliculas
 };
 
 #endif // PELICULA_H

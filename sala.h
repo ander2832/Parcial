@@ -21,9 +21,14 @@ public:
     sala();
     bool isVoid();//retorna true si no hay salas registradas
     void Insert(int, int, int, int);//Registra una nueva sala
-    struct asientos{string clasificacion;int costo;};
+    void InsertAsiento();// para insertar un nuevo tipo de asiento
     void PrintSalas();
     void PrintAsientos();
+    bool Exist(int); //retorna true si la sala existe
+    void Guardarsala(); //Guarda los cambios hechos al archivo sala
+    void Guardarasiento();
+    void CambiarPrecioAsiento();//cambiar precio de un asiento
+
 };
 
 

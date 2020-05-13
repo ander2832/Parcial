@@ -16,9 +16,10 @@ private:
    map<int,datoscartelera> Cartelera;// <id:{idpelicula, fecha, hora,id sala}
 public:
     cartelera();
-    void Insert(); //Para ingresar una pelicula a la cartelera
+    void Insert(int,int); //Para ingresar una pelicula a la cartelera
     string ValidarFecha();
     string ValidarHora();
+    void Guardar();
 };
 
 #endif // CARTELERA_H
