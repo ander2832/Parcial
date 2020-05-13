@@ -11,9 +11,9 @@ usuario::usuario(){
     string clavem; //clave del mapa
     string linea;
     int edad;
-    while(true){   //Mientras no sea el final del archivo
+    getline(fileinput,clavem);
+    while(!fileinput.eof()){   //Mientras no sea el final del archivo
         //Leemos el archivo y lo guardamos en un mapa (clave: cedula, valor:datos del usuario)
-        getline(fileinput,clavem);
             userdata datos;
             getline(fileinput,linea);
             datos.nombre=linea;
@@ -22,10 +22,8 @@ usuario::usuario(){
             datos.edad=edad;
             getline(fileinput,linea);
             datos.clave=linea;
-            if(fileinput.eof()){ //si el archivo termino se sale del ciclo
-                break;
-            }
             Usuario[clavem]=datos;
+            getline(fileinput,clavem);
         }
     fileinput.close();
 
@@ -33,13 +31,20 @@ usuario::usuario(){
 
 void usuario::InsertUser()
 {
-    string cc,nombre,clave;
     int edad;
-    cout<<"Cedula: ";cin>>cc;
+    string cc,clave,nombre,_edad;
+    cin.sync();
+    cout<<"Cedula: ";cin>>cc;;
     if ( Usuario.find(cc) == Usuario.end() ) {
-        cout<<"Nombre: ";cin>>nombre;
-        cout<<"Edad: ";cin>>edad;
-        cout<<"Clave: ";cin>>clave;
+
+        cin.sync();//Limpia el bufer de entrada
+        cout<<"Nombre: ";getline(cin,nombre);
+        cin.sync();
+        cout<<"Edad: ";getline(cin,_edad);
+        cin.sync();
+        cout<<"Clave: ";getline(cin,clave);
+
+        edad=atoi(_edad.c_str());
         userdata datos={nombre,clave,edad};
         Usuario[cc]=datos;
         cout<<"\n\n El usuario ha sido registrado\n"<<endl;

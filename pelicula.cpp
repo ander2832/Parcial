@@ -10,9 +10,8 @@ Pelicula::Pelicula()
     }
     string clavem; //clave del mapa
     string linea;//variable que va recorriendo el archivo linea por linea
-    while(true){
-        //Leemos el archivo y lo guardamos en un mapa (clave: cedula, valor:datos del usuario)
-        getline(fileinput,clavem);
+    getline(fileinput,clavem);
+    while(!fileinput.eof()){
         int id=atoi(clavem.c_str());
             datos d;
             getline(fileinput,linea);
@@ -23,10 +22,9 @@ Pelicula::Pelicula()
             d.duracion=atoi(linea.c_str());
             getline(fileinput,linea);
             d.clase=linea;
-            if(fileinput.eof()){ //si el archivo termino se sale del ciclo
-                break;
-            }
             pelidatos[id]=d;
+            getline(fileinput,clavem);
+
         }
     fileinput.close();
 }
@@ -40,9 +38,45 @@ void Pelicula::Guardar()
         exit(1);//termina la ejecucion del programa
     }
     for(auto i=begin(pelidatos);i!=end(pelidatos);i++){
-        file<<i->first<<"\n"<<i->second.nombre<<"\n"<<i->second.genero<<"\n"<<i->second.duracion<<"\n"<<i->second.clase<<endl;
+        file<<to_string(i->first)<<"\n"<<i->second.nombre<<"\n"<<i->second.genero<<"\n"<<i->second.duracion<<"\n"<<i->second.clase<<endl;
 
     }
     file.close();
+}
+
+void Pelicula::Insert()
+{
+    int id,duracion;
+    string nombre,genero,clase;
+    cin.sync();
+    id=pelidatos.size()+1;
+        datos d;
+        cin.sync();//Limpia el bufer de entrada
+        cout<<"Nombre: ";getline(cin,nombre);
+        d.nombre=nombre;
+        cin.sync();
+        cout<<"Genero: ";getline(cin,genero);
+        d.genero=genero;
+        cin.sync();
+        cout<<"Duracion: ";cin>>duracion;
+        d.duracion=duracion;
+        cin.sync();
+        cout<<"Clase: ";getline(cin,clase);
+        d.clase=clase;
+
+        pelidatos[id]=d;
+        cout<<"La pelicula ha sido ingresada,"
+              " por favor seleccione la opcion programar funcion"
+              " para poner la pelicula en cartelera"<<endl;
+        system("pause");
+
+}
+
+void Pelicula::Printpeliculas()
+{
+    cout <<"-------------------------------------------\n\n"<<endl;
+    for(auto i=begin(pelidatos);i!=end(pelidatos);i++){
+        cout<<i->first<<" "<<i->second.nombre<<" "<<i->second.genero<<" "<<i->second.duracion<<" "<<i->second.clase<<endl;
+    }
 }
 

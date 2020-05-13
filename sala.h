@@ -1,21 +1,30 @@
 #ifndef SALA_H
 #define SALA_H
-#include <vector>
-#include <iostream>
 
+#include <string.h>
+#include <map>
+#include <fstream>
+#include <iostream>
+#include <stdlib.h>
 using namespace std;
 
-class Sala
+class sala
 {
 private:
-    //Creamos una matriz de bool (true:reservado, false:disponible)
-    // que representa los asientos en la sala de cine
-    vector<vector<bool>> matriz;
-    int fil;
-    int col;
+    struct datos{int filas;int columnas;int tipoasiento;};
+    map<int,datos> saladatos;
+
+    //tipo de asiento
+    struct dato{string clasificacion;int costo;};
+    map<int,dato> datosasiento;  //<id:clasificacion,costo>
 public:
-    Sala(int, int);         //constructor
-    void PrintAsientos();   //Imprime la matriz de asientos
+    sala();
+    bool isVoid();//retorna true si no hay salas registradas
+    void Insert(int, int, int, int);//Registra una nueva sala
+    struct asientos{string clasificacion;int costo;};
+    void PrintSalas();
+    void PrintAsientos();
 };
+
 
 #endif // SALA_H
