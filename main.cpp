@@ -1,19 +1,14 @@
 #include <iostream>
 #include <stdlib.h>
 
-#include "usuario.h"
 #include "admin.h"
-#include "pelicula.h"
-#include "cartelera.h"
-#include "sala.h"
+#include "basededatos.h"
 
 
 using namespace std;
-usuario DatosUsuario=usuario();
+
 admin Administrador=admin();
-Pelicula peli=Pelicula();
-cartelera datosCartelera=cartelera();
-sala saladatos=sala();
+basededatos db=basededatos();
 
 int main()
 {
@@ -43,13 +38,13 @@ int main()
                 cin>>optionadmin;
                 switch (optionadmin) {
                 case 1:
-                    peli.Insert();
-                    peli.Guardar();
+                    db.Insertpelicula();
+                    db.Guardarpelicula();
                     break;
                 case 2:
-                    if(saladatos.isVoid()==false){ //si hay salas registradas
+                    if(db.salaisVoid()==false){ //si hay salas registradas
                         cout<<"Seleccione La pelicula para ingresar a cartelera: \n"<<endl;
-                        int npelis=peli.Printpeliculas();//Imprime todas las peliculas guardadas
+                        int npelis=db.Printpeliculas();//Imprime todas las peliculas guardadas
                         int pelicula,sala;
                         cin>>pelicula;
                         while(pelicula>npelis || pelicula<1){
@@ -57,14 +52,14 @@ int main()
                             cin>>pelicula;
                         }
                         cout<<"Seleccione una sala para la pelicula: "<<endl;
-                        saladatos.PrintSalas();
+                        db.PrintSalas();
                         cin>>sala;
-                        while(saladatos.Exist(sala)==false){
+                        while(db.Existsala(sala)==false){
                             cout<<"Seleccione una valida.. "<<endl;
                             cout<<"Sala: ";cin>>sala;
                         }
-                        datosCartelera.Insert(pelicula,sala);
-                        datosCartelera.Guardar();
+                        db.Insertpeliculacartelera(pelicula,sala);
+                        db.Guardarcartelera();
 
 
                     }else{
@@ -90,13 +85,13 @@ int main()
                         }
                         cout<<"Numero de columnas: ";cin>>columnas;
                         cout<<"Seleccione un tipo de asiento "<<endl;
-                        saladatos.PrintAsientos();
+                        db.PrintAsientos();
                         cin>>tipoasiento;
-                        saladatos.Insert(id,filas,columnas,tipoasiento);
-                        saladatos.Guardarsala();
+                        db.Insertsala(id,filas,columnas,tipoasiento);
+                        db.Guardarsala();
                         break;
                     case 2:
-                        saladatos.PrintSalas();
+                        db.PrintSalas();
                         break;
                     default:
                         break;
@@ -105,7 +100,7 @@ int main()
                     break;
                 case 4:
                     cout <<"-------------------------------------------\n\n"<<endl;
-                    saladatos.PrintAsientos();
+                    db.PrintAsientos();
                     cout<<"\n1) Ingresar un tipo nuevo"<<endl;
                     cout<<"2) Modificar Precio"<<endl;
                     cout<<"3) Regresar"<<endl;
@@ -113,12 +108,12 @@ int main()
                     cin>>optionasientos;
                     switch (optionasientos) {
                     case 1:
-                        saladatos.InsertAsiento();
-                        saladatos.Guardarasiento();
+                        db.InsertAsiento();
+                        db.Guardarasiento();
                         break;
                     case 2:
-                        saladatos.CambiarPrecioAsiento();
-                        saladatos.Guardarasiento();
+                        db.CambiarPrecioAsiento();
+                        db.Guardarasiento();
                         break;
                     }
                     break;
@@ -146,14 +141,44 @@ int main()
             int op;
             cin >> op;
             switch (op) {
+            int npeli;
             case 1:
-                if(DatosUsuario.Login()==true){  //si el usuario y contraseña es correcto
+                if(db.Login()==true){  //si el usuario y contraseña es correcto
+                    cout <<"-------------------------------------------\n\n"<<endl;
+                    cout<<"1) Ver peliculas"<<endl;
+                    cout<<"2) Mis Reservas"<<endl;
+                    int optionusuario;
+                    cin>>optionusuario;
+                    switch (optionusuario) {
+                    case 1:
+                        cout <<"-------------------------------------------\n\n"<<endl;
+                        npeli=db.Printpeliculas();
+                        int p;
+                        cout <<"Seleccione una pelicula ";cin>>p;
+                        while(p>npeli || p<1){
+                            cout<<"Por favor seleccione una opcion valida"<<endl;
+                            cin>>p;
+                        }
+                        cout <<"-------------------------------------------\n\n"<<endl;
+                        db.PrintHorarios(p);
+                        int h; //id de la funcion
+                        cout<<"Seleccione un Horario: ";cin>>h;
+                        while(!db.cartelerapelicula(p,h)){
+                            cout<<"Seleccione un Horario valido: ";cin>>h;
+                        }
+                        db.Newreserva(h);
+                        break;
+                    case 2:
+                        break;
+                    default:
+                        break;
+                    }
 
                 }
                 break;
             case 2:
-                DatosUsuario.InsertUser();
-                DatosUsuario.Guardar();
+                db.InsertUser();
+                db.Guardarusuario();
                 break;
             default:
                 break;
