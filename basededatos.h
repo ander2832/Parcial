@@ -34,7 +34,7 @@ private:
     string cc;  //id de usuario que inicia sesion
 
     //Reserva
-    struct datosreserva{int idfuncion; int idusuario; int asientofila; int asientocolumna;};
+    struct datosreserva{int idfuncion; string idusuario; int asientofila; int asientocolumna;};
     map<int,datosreserva> reserva;
 public:
     basededatos();
@@ -70,6 +70,12 @@ public:
     void PrintHorarios(int);
     void Newreserva(int); //Hacer una nueva reserva
     bool cartelerapelicula(int,int);// verifica si en una funcion esta una pelicula
+    void pagar(int); //recibe como argumento el tipo de asiento para saber cuanto cobrar
+    void Guardarreserva();
+
+
+    //Reporte de ventas
+    void PrintReporte();
 
 };
 

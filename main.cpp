@@ -32,8 +32,7 @@ int main()
                 cout<<"4) Tipos de asientos"<<endl;
                 cout<<"5) Cambiar clave"<<endl;
                 cout<<"6) Reporte de ventas"<<endl;
-                cout<<"7) Regresar"<<endl;
-                cout<<"8) Cerrar sesion"<<endl;
+                cout<<"7) Cerrar sesion"<<endl;
                 int optionadmin;
                 cin>>optionadmin;
                 switch (optionadmin) {
@@ -122,7 +121,9 @@ int main()
                     Administrador.Guardar();
                     break;
                 case 6:
-
+                    //reporte de ventas
+                    cout <<"-------------------------------------------\n\n"<<endl;
+                    db.PrintReporte();
                     break;
                 default:
                     login=false;
@@ -145,13 +146,6 @@ int main()
             case 1:
                 if(db.Login()==true){  //si el usuario y contraseña es correcto
                     cout <<"-------------------------------------------\n\n"<<endl;
-                    cout<<"1) Ver peliculas"<<endl;
-                    cout<<"2) Mis Reservas"<<endl;
-                    int optionusuario;
-                    cin>>optionusuario;
-                    switch (optionusuario) {
-                    case 1:
-                        cout <<"-------------------------------------------\n\n"<<endl;
                         npeli=db.Printpeliculas();
                         int p;
                         cout <<"Seleccione una pelicula ";cin>>p;
@@ -164,15 +158,9 @@ int main()
                         int h; //id de la funcion
                         cout<<"Seleccione un Horario: ";cin>>h;
                         while(!db.cartelerapelicula(p,h)){
-                            cout<<"Seleccione un Horario valido: ";cin>>h;
+                            cout<<"Seleccione un Horario: ";cin>>h;
                         }
                         db.Newreserva(h);
-                        break;
-                    case 2:
-                        break;
-                    default:
-                        break;
-                    }
 
                 }
                 break;

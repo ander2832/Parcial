@@ -136,7 +136,7 @@ basededatos::basededatos()
             getline(fileinput,linea);
             datos.idfuncion=atoi(linea.c_str());
             getline(fileinput,linea);
-            datos.idusuario=atoi(linea.c_str());
+            datos.idusuario=linea;
             getline(fileinput,linea);
             datos.asientofila=atoi(linea.c_str());
             getline(fileinput,linea);
@@ -495,7 +495,7 @@ void basededatos::PrintHorarios(int pelicula)
     for(auto i=begin(Cartelera);i!=end(Cartelera);i++){
         if(i->second.idpelicula==pelicula){
             p=true;
-            cout<<i->first<<") Fecha: "<<i->second.fecha<<" Hora: "<<i->second.hora<<" Sala: "<<i->second.idsala<<"  "<<datosasiento[saladatos[i->second.idsala].tipoasiento].clasificacion<<endl;
+            cout<<i->first<<") Fecha: "<<i->second.fecha<<" Hora: "<<i->second.hora<<" Sala: "<<i->second.idsala<<"  "<<datosasiento[saladatos[i->second.idsala].tipoasiento].clasificacion<<" $"<<datosasiento[saladatos[i->second.idsala].tipoasiento].costo<<endl;
         }
 
     }
@@ -548,24 +548,30 @@ void basededatos::Newreserva(int funcion)
             fi=fi+1;
         }
     int filareserva, columnareserva;
-    char columna;
-    cout<<"Ingrese Fila: ";cin>>filareserva;
-    cout<<"Ingrese columna: ";cin>>columna;
-    columnareserva=columna-65;
+    char fila;
+    cout<<"Ingrese Fila (Mayuscula): ";cin>>fila;
+    cout<<"Ingrese columna: ";cin>>columnareserva;
+    filareserva=fila-64;
     int i,j;
     i=filareserva-1;
     j=columnareserva-1;
 
     while(*(*(puntero_matriz+i)+j)==true){
           cout<<"Asiento no disponible"<<endl;
-          cout<<"Ingrese Fila: ";cin>>filareserva;
-          cout<<"Ingrese columna: ";cin>>columna;
-          columnareserva=columna-65;
+          cout<<"Ingrese Fila: ";cin>>fila;
+          cout<<"Ingrese columna: ";cin>>columnareserva;
+          filareserva=fila-64;
           i=filareserva-1;
           j=columnareserva-1;
     }
-
-
+    int id=reserva.size()+1;
+    datosreserva d;
+    d.idfuncion=funcion;
+    d.idusuario=cc;
+    d.asientofila=filareserva;
+    d.asientocolumna=columnareserva;
+    reserva[id]=d;
+    pagar(saladatos[Cartelera[funcion].idsala].tipoasiento);
     for(int i=0;i<fil;i++){
         delete[] puntero_matriz[i];
     }
@@ -582,4 +588,65 @@ bool basededatos::cartelerapelicula(int pelicula, int funcion)
     }
 }
 
+void basededatos::pagar(int asiento)
+{
+    int precio=datosasiento[asiento].costo;
+    int dineroin,dineroout; //dinero ingresado y devuelta
+    cout<<"Cuanto dinero va a ingresar: ";cin>>dineroin;
+    while(dineroin<precio){
+        cout<<"Dinero insuficiente"<<endl;
+        cout<<"Ingrese dinero: ";cin>>dineroin;
+    }
+    dineroout=dineroin-precio;
+    int dinero[10]={0,0,0,0,0,0,0,0,0,0};
+    int billetes[10]={50000,20000,10000,5000,2000,1000,500,200,100,50};
+    int i=0;
+    int n;
+    while(i<10){
+       n=dineroout/billetes[i];
+       dinero[i]=n;
+       dineroout -= n*billetes[i];
+       i +=1;
+    }
+    i=0;
+    cout<<"Transaccion exitosa"<<endl;
+    cout<<"Su devuelta es: "<<endl;
+    while(i<10){
+        if(1<5){
+         cout<<dinero[i]<<" billetes de "<<billetes[i]<<endl;
+        }else{
+            cout<<dinero[i]<<" Monedas de "<<billetes[i]<<endl;
+        }
+        i +=1;
+    }
+    cout<<"Faltante: "<<dineroout<<endl;
+    Guardarreserva();
+}
 
+void basededatos::Guardarreserva()
+{
+    ofstream file;
+    file.open("../Parcial/Data_Base/Reserva.txt",ios::out);
+    if(file.fail()){
+        cout<<"No se pudo Guardar"<<endl;
+        exit(1);//termina la ejecucion del programa
+    }
+    for(auto i=begin(reserva);i!=end(reserva);i++){
+        file<<i->first<<"\n"<<i->second.idfuncion<<"\n"<<i->second.idusuario<<"\n"<<i->second.asientofila<<"\n"<<i->second.asientocolumna<<endl;
+
+    }
+    file.close();
+}
+
+void basededatos::PrintReporte()
+{
+    int totalventas=0;
+    int venta;
+    cout<<"Reporte de ventas: "<<endl;
+    for(auto i=begin(reserva);i!=end(reserva);i++){
+        venta=datosasiento[saladatos[Cartelera[i->second.idfuncion].idsala].tipoasiento].costo;
+        totalventas=totalventas+venta;
+        cout<<i->first<<" $"<<venta<<endl;
+    }
+    cout<<"\n Total Ventas: "<<totalventas<<endl;
+}
