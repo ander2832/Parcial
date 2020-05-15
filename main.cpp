@@ -149,11 +149,13 @@ int main()
                         npeli=db.Printpeliculas();
                         int p;
                         cout <<"Seleccione una pelicula ";cin>>p;
-                        while(p>npeli || p<1){
-                            cout<<"Por favor seleccione una opcion valida"<<endl;
+                        while(p>npeli || p<1 || !db.EdadPelicula(p)){
+                            cout<<"La pelicula no existe o unted no tiene la edad suficiente para verla"<<endl;
+                            cout<<"Por favor seleccione otra pelicula"<<endl;
                             cin>>p;
                         }
                         cout <<"-------------------------------------------\n\n"<<endl;
+
                         db.PrintHorarios(p);
                         int h; //id de la funcion
                         cout<<"Seleccione un Horario: ";cin>>h;

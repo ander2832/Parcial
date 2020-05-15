@@ -2,19 +2,24 @@
 Mision de rescate
 Accion
 120
-16+
+16
 2
 Triple frontera
 Accion
 125
-16+
+16
 3
 Bird Box: A ciegas
 Drama
 124
-16+
+16
 4
 A mi altura
 Infantil
 102
-7+
+7
+5
+A  MI ALTURA
+Infantil
+120
+7

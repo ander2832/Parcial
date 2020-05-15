@@ -25,7 +25,7 @@ private:
     map<int,datoscartelera> Cartelera;// <id:{idpelicula, fecha, hora,id sala}
 
     //pelicula
-    struct datospelicula{string nombre; string genero; int duracion; string clase;};
+    struct datospelicula{string nombre; string genero; int duracion; int clase;};
     map<int,datospelicula> pelidatos; //<id:{nombre, genero, duracion, clase}>
 
     //Usuario
@@ -76,6 +76,7 @@ public:
 
     //Reporte de ventas
     void PrintReporte();
+    bool EdadPelicula(int);
 
 };
 

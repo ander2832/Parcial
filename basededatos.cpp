@@ -92,7 +92,7 @@ basededatos::basededatos()
             getline(fileinput,linea);
             d.duracion=atoi(linea.c_str());
             getline(fileinput,linea);
-            d.clase=linea;
+            d.clase=atoi(linea.c_str());
             pelidatos[id]=d;
             getline(fileinput,clavepelicula);
 
@@ -391,8 +391,8 @@ void basededatos::Guardarpelicula()
 
 void basededatos::Insertpelicula()
 {
-    int id,duracion;
-    string nombre,genero,clase;
+    int id,duracion,clase;
+    string nombre,genero;
     cin.sync();
     id=pelidatos.size()+1;
         datospelicula d;
@@ -406,7 +406,7 @@ void basededatos::Insertpelicula()
         cout<<"Duracion: ";cin>>duracion;
         d.duracion=duracion;
         cin.sync();
-        cout<<"Clase: ";getline(cin,clase);
+        cout<<"Clase: ";cin>>clase;
         d.clase=clase;
 
         pelidatos[id]=d;
@@ -421,7 +421,7 @@ int basededatos::Printpeliculas()
 {
     int j=0;
     for(auto i=begin(pelidatos);i!=end(pelidatos);i++){
-        cout<<i->first<<") "<<i->second.nombre<<" "<<i->second.genero<<" "<<i->second.duracion<<" min "<<i->second.clase<<endl;
+        cout<<i->first<<") "<<i->second.nombre<<" "<<i->second.genero<<" "<<i->second.duracion<<" min "<<i->second.clase<<"+"<<endl;
         j=j+1;
     }
     return j;
@@ -649,4 +649,15 @@ void basededatos::PrintReporte()
         cout<<i->first<<" $"<<venta<<endl;
     }
     cout<<"\n Total Ventas: "<<totalventas<<endl;
+}
+
+bool basededatos::EdadPelicula(int pelicula)
+{
+    int edad=Usuario[cc].edad;
+    if(edad<pelidatos[pelicula].clase){
+        return false;// no puede ver la pelicula
+    }else{
+        return true;
+    }
+
 }

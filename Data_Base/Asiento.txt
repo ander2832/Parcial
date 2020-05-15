@@ -4,3 +4,6 @@ General 2D
 2
 General 3D
 10800
+3
+Vibro sound 2D
+10000
